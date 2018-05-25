@@ -7,7 +7,7 @@
 在项目下执行
 
 ```
-mvn clean package 
+mvn clean package -Dmaven.test.skip=true
 ```
 
 即可完成打包
@@ -32,10 +32,13 @@ mvn clean package
 
 ### 项目依赖
 
-[teclan.exec](https://github.com/teclan/teclan-exec)
-[teclean.guice](https://github.com/teclan/teclean.guice)
-[teclan.utils](https://github.com/teclan/teclan.utils)
+`[teclan.exec](https://github.com/teclan/teclan-exec)`
 
+`[teclean.guice](https://github.com/teclan/teclean.guice)`
+
+`[teclan.utils](https://github.com/teclan/teclan.utils)`
+
+将依赖的项目 clone 下来，分别在各依赖项目下执行`mvn install -Dmaven.test.skip=true` 即可
 
 
 ### 相关配置请查看以下配置文件说明
