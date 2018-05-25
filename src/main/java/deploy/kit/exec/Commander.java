@@ -1,6 +1,8 @@
 package deploy.kit.exec;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import teclan.exec.Executor;
 public class Commander {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Commander.class);
 
+	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+
 	/**
 	 * 复制文件
 	 * 
@@ -23,6 +27,33 @@ public class Commander {
 		try {
 			Executor.exec("cmd", "/c", "copy", from, to);
 			LOGGER.info("复制成功,{}--->{}", from, to);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * 备份文件
+	 * 
+	 * @param deployDir
+	 * @param project
+	 */
+	public void backup(String deployDir, String project) {
+		try {
+			String from = deployDir + File.separator + project;
+			String to = deployDir + File.separator + project + "_" + DATE_FORMAT.format(new Date());
+			Executor.exec("cmd", "/c", "move", from,to);
+			LOGGER.info("备份 {} 至 {} 完成 ...", from, to);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	public void delete(String deployDir, String project) {
+		try {
+			String path = deployDir + File.separator + project + ".war";
+			Executor.exec("cmd", "/c", "delete", path);
+			LOGGER.info("删除 {} 完成...", path);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}

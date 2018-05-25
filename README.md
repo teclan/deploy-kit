@@ -1,75 +1,154 @@
 ## 项目介绍
 
-监控某个目录下的文件状态，如果发现文件被修改，从备份目录中恢复对应文件。
-程序开始，会先进入备份目录下采集文件状态，包括文件大小，文件最后修改时间
-以及 SHA-256 存入文件数据库，数据库相关配置请参考配置文件。
+用于自动化部署
 
-## 环境
+## 打包
 
-1、JDK
+在项目下执行
 
-2、Maven
+```
+mvn clean package 
+```
 
-## 依赖项目
+即可完成打包
 
-[teclan-guice](https://github.com/teclan/teclan-guice)
+## 运行
+
+解压打包生成的压缩包，指定脚本已完成相关操作，数据采集的，重复执行会覆盖掉相同项目的数据。数据库文件复制到当前目录下的
+`db` 文件夹即可
+
+## 操作流程
+
+### 1. 执行采集数据脚本，采集正确部署的项目信息（采集文件大小，MD5）
+### 2. 将数据库和相关war复制到现场的指定目录
+### 3. 检查本程序的配置文件，如`war包目录`,`部署目录`,`配置文件目录`
+### 4. 执行部署脚本，完成部署操作（删除原部署目录的war，自动将新的war复制到部署目录，备份原来的部署文件，解压新的war，替换配置文件）
+### 5. 执行数据校验脚本，自动扫描新部署的文件，与数据库中采集的数据做比较，不匹配的文件给出日志
+
+### 目录介绍
+
+##### `conf`：配置文件目录
+#### `db`：数据库文件目录
+
+### 项目依赖
+
+[teclan.exec](https://github.com/teclan/teclan-exec)
+[teclean.guice](https://github.com/teclan/teclean.guice)
+[teclan.utils](https://github.com/teclan/teclan.utils)
 
 
-[teclan-utils](https://github.com/teclan/teclan-utils)
 
-## 配置
+### 相关配置请查看以下配置文件说明
 
-监控目录和备份目录用户在配置文件 config.conf中指定
 ```
 config {
-
-  file {
-  	  # 程序监控目录，内容与备份目录一致
-	  monitor-dir = "/home/teclan/tmp/teclan-monitor"
-	  # 文件备份目录，当文件发生改变时，从此目录中恢复
-	  backup-dir = "/home/teclan/tmp/teclan"
-	  }
-	  
-	  
-  thread {
-    # 文件恢复的最大并发数
-    max = 3
+   
+  deploy {
+  
+    # 部署的项目名称列表，下方需要跟随相关配置，如需添加项目，按照格式添加配置即可
+    projects=["IntegratedMM","AlertProcessing","RDAcenter","Event-Processing-Nodes"]
+    
+    # 管理平台配置
+    IntegratedMM {
+    
+	     # 采集路径，最后的目录后面不能写 \\
+	     collect_path="E:\\Repository\\Codes\\java\\IntegratedMM\\target\\IntegratedMM"
+	     
+	     # war 包路径
+	     war_path="E:\\Repository\\Codes\\java\\IntegratedMM\\target\\IntegratedMM.war"
+	     
+	     # 部署路径
+	     deploy_path="E:\\deploy\\"
+	     
+	     # 正确的配置文件路径 
+	     config_file_path="E:\\deploy\\配置文件\\IntegratedMM"
+    }
+  
+    # 事件服务配置
+    AlertProcessing {
+    
+	     # 采集路径，最后的目录后面不能写 \\
+	     collect_path="E:\\Repository\\Codes\\java\\AlertProcessing\\target\\AlertProcessing"
+	     
+	     # war 包路径
+	     war_path="E:\\Repository\\Codes\\java\\AlertProcessing\\target\\AlertProcessing.war"
+	     
+	     # 部署路径
+	     deploy_path="E:\\deploy\\"
+	     
+	     # 正确的配置文件路径 
+	     config_file_path="E:\\deploy\\配置文件\\AlertProcessing"
+    }
+    
+     # 联网配置
+    RDAcenter {
+    
+	     # 采集路径，最后的目录后面不能写 \\
+	     collect_path="E:\\Repository\\Codes\\java\\RDAcenter\\target\\RDAcenter"
+	     
+	     # war 包路径
+	     war_path="E:\\Repository\\Codes\\java\\RDAcenter\\target\\RDAcenter.war"
+	     
+	     # 部署路径
+	     deploy_path="E:\\deploy\\"
+	     
+	     # 正确的配置文件路径 
+	     config_file_path="E:\\deploy\\配置文件\\RDAcenter"
+    }
+    
+    
+     # 事件服务配置
+    Event-Processing-Nodes {
+    
+	     # 采集路径，最后的目录后面不能写 \\
+	     collect_path="E:\\Repository\\Codes\\java\\Event-Processing-Nodes\\target\\Event-Processing-Nodes"
+	     
+	     # war 包路径
+	     war_path="E:\\Repository\\Codes\\java\\Event-Processing-Nodes\\target\\Event-Processing-Nodes.war"
+	     
+	     # 部署路径
+	     deploy_path="E:\\deploy\\"
+	     
+	     # 正确的配置文件路径 
+	     config_file_path="E:\\deploy\\配置文件\\Event-Processing-Nodes"
+    }
+  
+  
   }
+ 
+ ########################################################################
+ #                       以下配置请勿随意修改								#
+ ########################################################################
 
   ## 数据库配置项
   db {
     ## 数据库连接名称
     name = "default"
+
     ## 数据库迁移配置项
     migration {
       ## 应用启动时是否执行迁移
       migrate = true
     }
+
     ## JDBC连接配置项
     jdbc {
       ## 连接驱动
       driver   = "org.h2.Driver"
-      ## 数据库url
+      
       url-template:"jdbc:h2:file:%s"
+
       ## 数据库文件相对应用的存放路径
       db-path      = "db/teclan-monitor"
+      
       ## 用户名
       user     = "system"
+      
       ## 密码
       password = "65536"
     }
   }
+  thread.max=2
 }
 
 ```
-## 打包
-
-在项目目录下执行以下命令，在 target 目录下生成 teclan-monitor-0.0.1-SNAPSHOT-bin.zip
-```
-mvn package -Dmaven.test.skip
-```
-## 运行
-解压 teclan-monitor-0.0.1-SNAPSHOT-bin.zip ，执行 bin 目录下的 startup 文件即可
-
-
-
