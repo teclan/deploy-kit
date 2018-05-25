@@ -1,4 +1,4 @@
-package teclan.monitor.db;
+package deploy.kit.db;
 
 public class DataSource {
 

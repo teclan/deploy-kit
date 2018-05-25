@@ -1,4 +1,4 @@
-package teclan.monitor.provider;
+package deploy.kit.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -6,8 +6,8 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.typesafe.config.Config;
 
-import teclan.monitor.db.DataSource;
-import teclan.monitor.db.Database;
+import deploy.kit.db.DataSource;
+import deploy.kit.db.Database;
 
 @Singleton
 public class DatabaseProvider implements Provider<Database> {

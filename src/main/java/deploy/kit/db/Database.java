@@ -1,4 +1,4 @@
-package teclan.monitor.db;
+package deploy.kit.db;
 
 import java.util.HashMap;
 import java.util.Map;

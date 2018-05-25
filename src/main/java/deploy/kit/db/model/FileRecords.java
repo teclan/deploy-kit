@@ -1,4 +1,4 @@
-package teclan.monitor.db.model;
+package deploy.kit.db.model;
 
 import org.javalite.activejdbc.Model;
 

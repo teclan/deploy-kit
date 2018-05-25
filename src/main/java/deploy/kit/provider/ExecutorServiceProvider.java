@@ -1,4 +1,4 @@
-package teclan.monitor.provider;
+package deploy.kit.provider;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
