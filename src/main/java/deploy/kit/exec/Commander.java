@@ -25,6 +25,12 @@ public class Commander {
 	 */
 	public void copy(String from, String to) {
 		try {
+			
+			if(!new File(from).exists()) {
+				LOGGER.info("文件复制失败,未找到文件 {} ...", from);
+				return ;
+			}
+			
 			Executor.exec("cmd", "/c", "copy", from, to);
 			LOGGER.info("复制成功,{}--->{}", from, to);
 		} catch (Exception e) {
