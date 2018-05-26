@@ -63,7 +63,7 @@ config {
 	     # 部署路径
 	     deploy_path="E:\\deploy\\"
 	     
-	     # 正确的配置文件路径 
+	     # 正确的配置文件路径 ，此目录下包含一个 web.xml 文件和  properties 目录，自动将对应文件复制到指定位置
 	     config_file_path="E:\\deploy\\配置文件\\IntegratedMM"
     }
   
@@ -79,7 +79,7 @@ config {
 	     # 部署路径
 	     deploy_path="E:\\deploy\\"
 	     
-	     # 正确的配置文件路径 
+	     # 正确的配置文件路径 ，此目录下包含一个 web.xml 文件和  properties 目录，自动将对应文件复制到指定位置
 	     config_file_path="E:\\deploy\\配置文件\\AlertProcessing"
     }
     
@@ -95,7 +95,7 @@ config {
 	     # 部署路径
 	     deploy_path="E:\\deploy\\"
 	     
-	     # 正确的配置文件路径 
+	     # 正确的配置文件路径 ，此目录下包含一个 web.xml 文件和  properties 目录，自动将对应文件复制到指定位置
 	     config_file_path="E:\\deploy\\配置文件\\RDAcenter"
     }
     
@@ -112,7 +112,7 @@ config {
 	     # 部署路径
 	     deploy_path="E:\\deploy\\"
 	     
-	     # 正确的配置文件路径 
+	     # 正确的配置文件路径 ，此目录下包含一个 web.xml 文件和  properties 目录，自动将对应文件复制到指定位置
 	     config_file_path="E:\\deploy\\配置文件\\Event-Processing-Nodes"
     }
   
